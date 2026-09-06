@@ -1,3 +1,8 @@
+*.csv
+*.db
+
+# Everything below is from the template
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
