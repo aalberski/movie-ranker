@@ -65,6 +65,19 @@ def build_db(datafile, database):
     conn.commit()
     conn.close()
 
+def get_pair(database):
+    conn = sqlite3.connect(database)
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        SELECT id, title FROM movies ORDER BY comparisons_count ASC, RANDOM() LIMIT 2
+        """
+    )
+    x = cursor.fetchone()
+    y = cursor.fetchone()
+    return x, y
+    conn.close()
+
 def update_elo(db, winner, loser):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
@@ -91,3 +104,17 @@ def update_elo(db, winner, loser):
     conn.commit()
     conn.close()
 
+def movie_leaderboard(database):
+    conn = sqlite3.connect(database)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT title FROM movies ORDER BY elo_rating DESC
+        """
+    )
+    rows = cursor.fetchall()
+    leaderboard = rows
+        
+    print(leaderboard)
+    return leaderboard
