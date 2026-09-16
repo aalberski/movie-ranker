@@ -67,16 +67,17 @@ def build_db(datafile, database):
 
 def get_pair(database):
     conn = sqlite3.connect(database)
+    conn.row_factory= sqlite3.Row
     cursor = conn.cursor()
+
     cursor.execute(
         """
-        SELECT id, title FROM movies ORDER BY comparisons_count ASC, RANDOM() LIMIT 2
+        SELECT id, title, poster_path FROM movies ORDER BY comparisons_count ASC, RANDOM() LIMIT 2
         """
     )
     x = cursor.fetchone()
     y = cursor.fetchone()
-    return x, y
-    conn.close()
+    return dict(x), dict(y)
 
 def update_elo(db, winner, loser):
     conn = sqlite3.connect(db)
